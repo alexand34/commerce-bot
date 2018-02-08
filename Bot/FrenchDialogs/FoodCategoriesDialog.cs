@@ -5,7 +5,7 @@ using Bot.Enums;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace Bot.EnglishDialogs
+namespace Bot.FrenchDialogs
 {
     [Serializable]
     public class FoodCategoriesDialog : IDialog<string>
@@ -22,7 +22,7 @@ namespace Bot.EnglishDialogs
             var replyToConversation = context.MakeMessage();//.CreateReply("Should go to conversation, in carousel format");
             replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             replyToConversation.Attachments = new List<Attachment>();
-            replyToConversation.Text = "Please, choose your food category.";
+            replyToConversation.Text = "SVP, choissiez votre type d’aliments.";
             Dictionary<string, Tuple<string, Categories>> cardContentList = new Dictionary<string, Tuple<string, Categories>>();
 
             cardContentList.Add("North US", new Tuple<string, Categories>

@@ -2,7 +2,7 @@
 {
     public enum Categories
     {
-        NorthUS,
+        NorthUs,
         Asian,
         Italian,
         Greek,

@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Bot.EnglishDialogs;
+using Bot.Root;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 

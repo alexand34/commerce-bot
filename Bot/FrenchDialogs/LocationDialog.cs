@@ -4,20 +4,20 @@ using Bot.Enums;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace Bot.EnglishDialogs
+namespace Bot.FrenchDialogs
 {
     [Serializable]
     public class LocationDialog : IDialog<string>
     {
 
         public LocationDialog()
-        {
+        { 
         }
 
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync($"Okay, the category is set. " +
-                                    $"Please, provide us your accurate address for us to pick the most suitable restaurants.");
+            await context.PostAsync($"D’accord, la categorie est choisie. SVP, envoyez-nous " +
+                                    $"votre adresse au complet pour choisir pour vous les meilleurs restaurants.");
 
             context.Wait(this.MessageReceivedAsync);
         }

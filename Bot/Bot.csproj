@@ -221,9 +221,12 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="EnglishDialogs\LocationDialog.cs" />
     <Compile Include="EnglishDialogs\FoodCategoriesDialog.cs" />
-    <Compile Include="EnglishDialogs\RootDialog.cs" />
+    <Compile Include="Root\LanguageDialog.cs" />
+    <Compile Include="Root\RootDialog.cs" />
     <Compile Include="Enums\Categories.cs" />
     <Compile Include="Enums\Languages.cs" />
+    <Compile Include="FrenchDialogs\FoodCategoriesDialog.cs" />
+    <Compile Include="FrenchDialogs\LocationDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -287,7 +290,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="FrenchDialogs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

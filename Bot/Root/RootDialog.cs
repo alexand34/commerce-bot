@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Bot.Dialogs;
 using Bot.Enums;
-using Bot.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace Bot.EnglishDialogs
+namespace Bot.Root
 {
     [Serializable]
     public class RootDialog : IDialog<object>
     {
-        private User user = new User();
-        private string Category;
-        private string Location;
-        private Languages Language;
+        private Languages _language;
+        private string _category;
+        private string _location;
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -34,20 +31,26 @@ namespace Bot.EnglishDialogs
 
         private async Task SendWelcomeMessageAsync(IDialogContext context)
         {
-            await context.PostAsync("👋Hi there,🤖 my name is Tastebot and I’m here to help you to find the most delicious 😋 food in Montreal. Just tell me what you want to try this time 🍽 and I’ll give you the best options I have at the moment.");
+            await context.PostAsync($"👋Hi there,🤖 my name is Tastebot and I’m here to help" +
+                                    $" you to find the most delicious 😋 food in Montreal. Just " +
+                                    $"tell me what you want to try this time 🍽 and I’ll give you" +
+                                    $" the best options I have at the moment.");
 
-            context.Call(new FoodCategoriesDialog(), this.LanguagesDialogResumeAfter);
+            context.Call(new LanguageDialog(_language), this.LanguagesDialogResumeAfter);
         }
 
-        private async Task LanguagesDialogResumeAfter(IDialogContext context, IAwaitable<string> result)
+        private async Task LanguagesDialogResumeAfter(IDialogContext context, IAwaitable<Languages> result)
         {
             try
             {
-                this.Category = await result;
+                this._language = await result;
 
-                context.Call(new LocationDialog(this.Category), this.LocationDialogResumeAfter);
+                if(_language == Languages.French)
+                    context.Call(new FrenchDialogs.FoodCategoriesDialog(), this.FoodCategoriesDialogResumeAfter);
+                else
+                    context.Call(new EnglishDialogs.FoodCategoriesDialog(), this.FoodCategoriesDialogResumeAfter);
             }
-            catch (TooManyAttemptsException)
+            catch (Exception ex)
             {
                 await context.PostAsync("I'm sorry, I'm having issues understanding you. Let's try again.");
 
@@ -59,9 +62,12 @@ namespace Bot.EnglishDialogs
         {
             try
             {
-                this.Category = await result;
+                this._category = await result;
 
-                context.Call(new LocationDialog(this.Category), this.LocationDialogResumeAfter);
+                if(_language == Languages.French)
+                    context.Call(new FrenchDialogs.LocationDialog(), this.LocationDialogResumeAfter);
+                else
+                    context.Call(new EnglishDialogs.LocationDialog(), this.LocationDialogResumeAfter);
             }
             catch (TooManyAttemptsException)
             {
@@ -75,10 +81,9 @@ namespace Bot.EnglishDialogs
         {
             try
             {
-                this.Location = await result;
+                this._location = await result;
 
-                await context.PostAsync($"Location: { Category }. Location: { Location }.");
-
+                //await context.PostAsync($"Location: { _category }. Location: { _location }.");
             }
             catch (TooManyAttemptsException)
             {
@@ -86,7 +91,8 @@ namespace Bot.EnglishDialogs
             }
             finally
             {
-                //await this.SendWelcomeMessageAsync(context);
+                await context.PostAsync($"Category: { _category }. Location: { _location }.\n" +
+                                        $" User: {context.Activity.From.Name} \n Id: {context.Activity.From.Id} \n Properties: {context.Activity.From.Properties}");
             }
         }
     }
