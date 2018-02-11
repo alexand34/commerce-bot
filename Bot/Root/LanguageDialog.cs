@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bot.Enums;
 using Microsoft.Bot.Builder.Dialogs;
@@ -19,15 +20,28 @@ namespace Bot.Root
 
         public async Task StartAsync(IDialogContext context)
         {
-            var replyToConversation = context.MakeMessage();
-            replyToConversation.AttachmentLayout = AttachmentLayoutTypes.List;
-            replyToConversation.Attachments = new List<Attachment>();
-            replyToConversation.Text = "Please, choose your language";
-            replyToConversation.Attachments.Add(GetLanguageButtonsCard());
+            var user = new User();
+            using (Entities ctx = new Entities())
+            {
+                user = ctx.Users.FirstOrDefault(x => x.MessengerId == context.Activity.From.Id);
+                if (user != null)
+                {
+                    _language = user.Language == (int)Languages.English ? Languages.English : Languages.French;
+                    context.Done(_language);
+                }
+                else
+                {
+                    var replyToConversation = context.MakeMessage();
+                    replyToConversation.AttachmentLayout = AttachmentLayoutTypes.List;
+                    replyToConversation.Attachments = new List<Attachment>();
+                    replyToConversation.Text = "Please, choose your language";
+                    replyToConversation.Attachments.Add(GetLanguageButtonsCard());
 
-            await context.PostAsync(replyToConversation);
+                    await context.PostAsync(replyToConversation);
 
-            context.Wait(this.MessageReceivedAsync);
+                    context.Wait(this.MessageReceivedAsync);
+                }
+            }
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
@@ -36,9 +50,19 @@ namespace Bot.Root
 
             if (!string.IsNullOrEmpty(message.Text))
             {
-                this._language = message.Text.ToLower().Equals("français") 
-                    || message.Text.ToLower().Equals("french")
+                this._language = message.Text.ToLower().Equals("français")
+                                 || message.Text.ToLower().Equals("french")
                     ? Languages.French : Languages.English;
+                using (Entities ctx = new Entities())
+                {
+                    ctx.Users.Add(new User()
+                    {
+                        UserName = context.Activity.From.Name,
+                        MessengerId = context.Activity.From.Id,
+                        Language = (int)_language
+                    });
+                    ctx.SaveChanges();
+                }
 
                 context.Done(_language);
             }
@@ -53,7 +77,9 @@ namespace Bot.Root
                 await context.PostAsync(replyToConversation);
 
                 context.Wait(this.MessageReceivedAsync);
+
             }
+
         }
 
         private Attachment GetLanguageButtonsCard()

@@ -17,7 +17,8 @@ namespace Bot.EnglishDialogs
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync($"Okay, the category is set. " +
-                                    $"Please, provide us your accurate address for us to pick the most suitable restaurants.");
+                                    $"Please, provide us your accurate address for us to pick the" +
+                                    $" most suitable restaurants.");
 
             context.Wait(this.MessageReceivedAsync);
         }

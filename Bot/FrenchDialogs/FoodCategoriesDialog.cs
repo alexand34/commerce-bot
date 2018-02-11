@@ -8,7 +8,7 @@ using Microsoft.Bot.Connector;
 namespace Bot.FrenchDialogs
 {
     [Serializable]
-    public class FoodCategoriesDialog : IDialog<string>
+    public class FoodCategoriesDialog : IDialog<int>
     {
         public async Task StartAsync(IDialogContext context)
         {
@@ -23,53 +23,35 @@ namespace Bot.FrenchDialogs
             replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             replyToConversation.Attachments = new List<Attachment>();
             replyToConversation.Text = "SVP, choissiez votre type d’aliments.";
-            Dictionary<string, Tuple<string, Categories>> cardContentList = new Dictionary<string, Tuple<string, Categories>>();
-
-            cardContentList.Add("North US", new Tuple<string, Categories>
-                ("http://news.antiwar.com/wp-content/uploads/2012/03/obama.jpg", Categories.NorthUs));
-            cardContentList.Add("Asian", new Tuple<string, Categories>
-                ("http://strongertogether.coop/sites/default/files/styles/article_node/public/wp-content/uploads/2013/02/Traditional_Asian_Food_Flavorful_Healthful_0.jpg?itok=DNpSK8Zg", Categories.Asian));
-            cardContentList.Add("Italian", new Tuple<string, Categories>
-                ("http://www.pizzamaria-brockton.com/images/pizza_party_maria_brockton.png", Categories.Italian));
-            cardContentList.Add("Greek", new Tuple<string, Categories>
-                ("https://fthmb.tqn.com/nmxcf2D8rVJNEcizH6i94lvtIFc=/425x326/filters:no_upscale()/Baklava-GettyImages-183422455-58c776223df78c353c747438.jpg", Categories.Greek));
-            cardContentList.Add("Iran", new Tuple<string, Categories>
-                ("https://www.sassyhongkong.com/wp-content/uploads/2017/01/SHK-persian-food-tahchin-700x394.jpg", Categories.Iran));
-            cardContentList.Add("Indian", new Tuple<string, Categories>(
-                "https://cdn1.i-scmp.com/sites/default/files/styles/980x551/public/images/methode/2016/05/20/5987ea58-1cd7-11e6-9777-749fedcc73f5_1280x720.jpg?itok=BImrmBaj", Categories.Indian));
-            cardContentList.Add("Packistan", new Tuple<string, Categories>
-                ("https://www.wefindyougo.com/wp-content/uploads/2013/10/Pakistani-Food.jpg", Categories.Pakistani));
-            cardContentList.Add("European", new Tuple<string, Categories>
-                ("http://europeanfoodbayarea.com/wp-content/uploads/2011/11/russian_food.jpg", Categories.European));
-            cardContentList.Add("Deserts", new Tuple<string, Categories>
-                ("https://media-cdn.tripadvisor.com/media/photo-s/0e/1c/7e/5a/an-excellent-decert-at.jpg", Categories.Desserts));
-
-            foreach (var cardContent in cardContentList)
+            using (Entities ctx = new Entities())
             {
-                List<CardImage> cardImages = new List<CardImage>();
-                cardImages.Add(new CardImage(url: cardContent.Value.Item1));
-
-                List<CardAction> cardButtons = new List<CardAction>();
-
-                CardAction plButton = new CardAction()
+                foreach (var category in ctx.Categories)
                 {
-                    Value = $"{cardContent.Value.Item2}",
-                    Type = "postBack",
-                    Title = $"{cardContent.Key}"
-                };
+                    List<CardImage> cardImages = new List<CardImage>();
+                    cardImages.Add(new CardImage(url: "https://p.memecdn.com/avatars/s_28212_50048351785dc.jpg"));
 
-                cardButtons.Add(plButton);
+                    List <CardAction> cardButtons = new List<CardAction>();
 
-                HeroCard plCard = new HeroCard()
-                {
-                    Title = $"{cardContent.Key}",
-                    Subtitle = $"{cardContent.Key}",
-                    Images = cardImages,
-                    Buttons = cardButtons
-                };
+                    CardAction plButton = new CardAction()
+                    {
+                        Value = $"{category.FrenchCategoryName}",
+                        Type = "imBack",
+                        Title = $"{category.FrenchCategoryName}"
+                    };
 
-                Attachment plAttachment = plCard.ToAttachment();
-                replyToConversation.Attachments.Add(plAttachment);
+                    cardButtons.Add(plButton);
+
+                    HeroCard plCard = new HeroCard()
+                    {
+                        Title = $"{category.FrenchCategoryName}",
+                        Subtitle = $"{category.FrenchCategoryName}",
+                        Images = cardImages,
+                        Buttons = cardButtons
+                    };
+
+                    Attachment plAttachment = plCard.ToAttachment();
+                    replyToConversation.Attachments.Add(plAttachment);
+                }
             }
 
             await context.PostAsync(replyToConversation);
