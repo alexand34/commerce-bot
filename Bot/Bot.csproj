@@ -321,6 +321,7 @@
     <Content Include="BotData.edmx.diagram">
       <DependentUpon>BotData.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\commerce-bot-core - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
