@@ -19,11 +19,13 @@ namespace Bot.EnglishDialogs
         private readonly int _categoryId;
         private double _distance;
         private SortingType _sortingType;
-        public RestaurantDialog(string location, int categoryId, SortingType sortingType)
+        private string _userId;
+        public RestaurantDialog(string location, int categoryId, SortingType sortingType, string userId)
         {
             _location = location;
             _categoryId = categoryId;
             _sortingType = sortingType;
+            _userId = userId;
         }
 
         public async Task StartAsync(IDialogContext context)
@@ -103,8 +105,8 @@ namespace Bot.EnglishDialogs
 
                         CardAction plButton = new CardAction()
                         {
-                            Value = $"{restaurant.Id}",
-                            Type = "imBack",
+                            Value = $"http://localhost:8039/Home/Index?userId={_userId}&restaurantId={restaurant.Id}",
+                            Type = "openUrl",
                             Title = $"{restaurant.RestaurantName}"
                         };
 

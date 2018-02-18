@@ -1,24 +1,25 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
+﻿<div class="row">
+    <h1>@ViewBag.UserId</h1>
+    <h1>@ViewBag.RestaurantId</h1>
+    @foreach (var category in ViewBag.Menu)
+    {
+        <div class="container col-md-12">
+            <h3>@category.Key</h3>
+            @foreach (var item in category.Value)
+            {
+                <div class="col-md-3">
+                    <div class="card">
+                        <img class="card-img-top" src="..." alt="image should be here">
+                        <div class="card-block">
+                            <h4 class="card-title">@item.DishName</h4>
+                            <p class="card-text">@item.Price</p>
+                            <p class="card-text">@item.Price</p>
+                            <p class="cart-text">@item.DishDescription</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>

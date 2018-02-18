@@ -9,7 +9,7 @@ using Microsoft.Bot.Connector;
 namespace Bot.Root
 {
     [Serializable]
-    public class LanguageDialog : IDialog<Languages>
+    public class LanguageDialog : IDialog<Tuple<Languages, string>>
     {
         private Languages _language;
 
@@ -27,7 +27,7 @@ namespace Bot.Root
                 if (user != null)
                 {
                     _language = user.Language == (int)Languages.English ? Languages.English : Languages.French;
-                    context.Done(_language);
+                    context.Done(new Tuple<Languages, string>(_language, context.Activity.From.Id));
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace Bot.Root
                     ctx.SaveChanges();
                 }
 
-                context.Done(_language);
+                context.Done(new Tuple<Languages, string>(_language, context.Activity.From.Id));
             }
             else
             {

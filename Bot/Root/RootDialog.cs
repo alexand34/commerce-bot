@@ -14,6 +14,8 @@ namespace Bot.Root
         private string _location;
         private int _restaurant;
         private SortingType _sortingType;
+        private string _userId;
+
         public async Task StartAsync(IDialogContext context)
         {
             /* Wait until the first message is received from the conversation and call MessageReceviedAsync 
@@ -40,12 +42,13 @@ namespace Bot.Root
             context.Call(new LanguageDialog(_language), this.LanguagesDialogResumeAfter);
         }
 
-        private async Task LanguagesDialogResumeAfter(IDialogContext context, IAwaitable<Languages> result)
+        private async Task LanguagesDialogResumeAfter(IDialogContext context, IAwaitable<Tuple<Languages, string>> result)
         {
             try
             {
-                this._language = await result;
-
+                var obj = await result;
+                _language = obj.Item1;
+                _userId = obj.Item2;
                 if(_language == Languages.French)
                     context.Call(new FrenchDialogs.FoodCategoriesDialog(), this.FoodCategoriesDialogResumeAfter);
                 else
@@ -104,7 +107,7 @@ namespace Bot.Root
                 if (_language == Languages.French)
                     context.Call(new FrenchDialogs.RestaurantDialog(_location, _category, _sortingType), this.RestaurantDialogResumeAfter);
                 else
-                    context.Call(new EnglishDialogs.RestaurantDialog(_location, _category, _sortingType), this.RestaurantDialogResumeAfter);
+                    context.Call(new EnglishDialogs.RestaurantDialog(_location, _category, _sortingType, _userId), this.RestaurantDialogResumeAfter);
             }
             catch (TooManyAttemptsException)
             {
