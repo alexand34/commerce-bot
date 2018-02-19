@@ -1,0 +1,67 @@
+﻿@model Bot.Dto.Entitites.Food
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Food</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FoodCategory.FoodCategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FoodCategory.FoodCategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RestaurantId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestaurantId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DishName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DishName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Portion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Portion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DishDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DishDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
