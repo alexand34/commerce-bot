@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
 }
 
@@ -14,4 +13,34 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+p {
+    margin-bottom: 5px;
+}
+.menu {
+    font-family: proxima-nova;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 12.5px;
+    letter-spacing: .06em;
+    line-height: 2em;
+    text-transform: none;
+    color: rgba(23,23,23,.8);
+}
+
+.menu-item {
+    border: 4px;
+    text-overflow: clip;
+}
+.menu-item:hover{
+    background: lightgray;
+}
+.menu-item-header {
+    text-overflow: clip;
+    font-weight: bolder;
+    font-size: 1.2em;
+    margin-bottom: 0.35em !important;
+}
+.menu-item-description {
+    text-overflow: clip;
 }

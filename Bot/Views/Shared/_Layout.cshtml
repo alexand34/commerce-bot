@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet"  type="text/css" href="~/Content/Site.css"/>
 </head>
 <body>
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Navbar w/ text</a>
+        <a class="navbar-brand" href="#">@Html.ActionLink("Chat&Buy", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</a>
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -44,6 +45,6 @@
 </body>
 </html>
 
-@Html.ActionLink("Chat&Buy", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
 
 @Html.ActionLink("API", "Index", "Help", new { area = "" }, null)

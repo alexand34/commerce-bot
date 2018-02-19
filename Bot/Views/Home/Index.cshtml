@@ -1,25 +1,21 @@
-﻿<div class="row">
-    <h1>@ViewBag.UserId</h1>
+﻿<div class="container">
     <h1>@ViewBag.RestaurantId</h1>
     @foreach (var category in ViewBag.Menu)
     {
-        <div class="container col-md-12">
-            <h3>@category.Key</h3>
-            @foreach (var item in category.Value)
-            {
-                <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="..." alt="image should be here">
-                        <div class="card-block">
-                            <h4 class="card-title">@item.DishName</h4>
-                            <p class="card-text">@item.Price</p>
-                            <p class="card-text">@item.Price</p>
-                            <p class="cart-text">@item.DishDescription</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="row">
+            <div class="col-12 menu">
+                <h3>@category.Key</h3>
+                <div class="row">
+                    <hr />
+                    @foreach (var item in category.Value)
+                    {
+                        <div class="col-6 menu-item">
+                            <p class="card-title menu-item-header">@item.DishName – C$@item.Price</p>
+                            <p class="cart-text menu-item-description">@item.DishDescription</p>
                         </div>
-                    </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     }
 </div>

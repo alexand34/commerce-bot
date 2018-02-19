@@ -13,11 +13,12 @@ namespace Bot.Controllers
         {
             ViewBag.Title = "Chat&Buy Menu";
 
-            ViewBag.UserId = userId;
             Dictionary<string, List<Food>> menu= new Dictionary<string, List<Food>>();
             using (Entities ctx = new Entities())
             {
-                ViewBag.RestaurantId = ctx.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
+               
+                var restaurant = ctx.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
+                ViewBag.RestaurantId = restaurant != null ? restaurant.RestaurantName : null;
                 foreach (var category in ctx.FoodCategories)
                 {
                     var foodList = category.Foods.Where(x=>x.RestaurantId == restaurantId).ToList();
