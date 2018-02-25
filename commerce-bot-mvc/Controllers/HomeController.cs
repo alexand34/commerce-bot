@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace commerce_bot_mvc.Controllers
 {
+
     public class HomeController : Controller
     {
         public ActionResult Index()

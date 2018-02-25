@@ -11,6 +11,7 @@ using commerce_bot_mvc.Models;
 
 namespace commerce_bot_mvc.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

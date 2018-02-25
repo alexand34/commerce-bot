@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using commerce_bot_mvc.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace commerce_bot_mvc.Controllers
 {
@@ -144,6 +147,8 @@ namespace commerce_bot_mvc.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, "Restaurant");
+                    _context.Users.AddOrUpdate(user);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     _context.Restaurants.Add(new Restaurant()
                     {

@@ -242,6 +242,7 @@
     <Compile Include="Controllers\FoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="EnglishDialogs\FoodCategoriesDialog.cs" />
     <Compile Include="EnglishDialogs\LocationDialog.cs" />
@@ -264,6 +265,14 @@
     <Compile Include="Migrations\201802192204203_main-logic.Designer.cs">
       <DependentUpon>201802192204203_main-logic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802230714321_food-edit.cs" />
+    <Compile Include="Migrations\201802230714321_food-edit.Designer.cs">
+      <DependentUpon>201802230714321_food-edit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802230734596_food-update2.cs" />
+    <Compile Include="Migrations\201802230734596_food-update2.Designer.cs">
+      <DependentUpon>201802230734596_food-update2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -285,7 +294,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -339,11 +350,6 @@
     <Content Include="Views\PizzeriaAccounts\Details.cshtml" />
     <Content Include="Views\PizzeriaAccounts\Edit.cshtml" />
     <Content Include="Views\PizzeriaAccounts\Index.cshtml" />
-    <Content Include="Views\Foods\Create.cshtml" />
-    <Content Include="Views\Foods\Delete.cshtml" />
-    <Content Include="Views\Foods\Details.cshtml" />
-    <Content Include="Views\Foods\Edit.cshtml" />
-    <Content Include="Views\Foods\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
@@ -359,6 +365,13 @@
     <Content Include="Views\Restaurants\Details.cshtml" />
     <Content Include="Views\Restaurants\Edit.cshtml" />
     <Content Include="Views\Restaurants\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\commerce-bot-core - Web Deploy.pubxml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Foods\Create.cshtml" />
+    <Content Include="Views\Foods\Delete.cshtml" />
+    <Content Include="Views\Foods\Details.cshtml" />
+    <Content Include="Views\Foods\Edit.cshtml" />
+    <Content Include="Views\Foods\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bot.Dto\Bot.Dto.csproj">
@@ -372,6 +385,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802192204203_main-logic.resx">
       <DependentUpon>201802192204203_main-logic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802230714321_food-edit.resx">
+      <DependentUpon>201802230714321_food-edit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802230734596_food-update2.resx">
+      <DependentUpon>201802230734596_food-update2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

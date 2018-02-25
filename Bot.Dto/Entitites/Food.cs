@@ -11,7 +11,8 @@ namespace Bot.Dto.Entitites
         public double Price { get; set; }
         public string Portion { get; set; }
         public string DishDescription { get; set; }
-    
+
+        public virtual Restaurant Restaurant { get; set; }
         public virtual FoodCategory FoodCategory { get; set; }
     }
 }

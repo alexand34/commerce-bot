@@ -18,7 +18,7 @@ namespace commerce_bot_mvc.Controllers
         // GET: Foods
         public ActionResult Index()
         {
-            var food = db.Food.Include(f => f.FoodCategory);
+            var food = db.Food.Include(f => f.FoodCategory).Include(f => f.Restaurant);
             return View(food.ToList());
         }
 
@@ -41,6 +41,7 @@ namespace commerce_bot_mvc.Controllers
         public ActionResult Create()
         {
             ViewBag.FoodCategoryId = new SelectList(db.FoodCategories, "Id", "FoodCategoryName");
+            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "RestaurantName");
             return View();
         }
 
@@ -59,6 +60,7 @@ namespace commerce_bot_mvc.Controllers
             }
 
             ViewBag.FoodCategoryId = new SelectList(db.FoodCategories, "Id", "FoodCategoryName", food.FoodCategoryId);
+            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "RestaurantName", food.RestaurantId);
             return View(food);
         }
 
@@ -75,6 +77,7 @@ namespace commerce_bot_mvc.Controllers
                 return HttpNotFound();
             }
             ViewBag.FoodCategoryId = new SelectList(db.FoodCategories, "Id", "FoodCategoryName", food.FoodCategoryId);
+            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "RestaurantName", food.RestaurantId);
             return View(food);
         }
 
@@ -92,6 +95,7 @@ namespace commerce_bot_mvc.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.FoodCategoryId = new SelectList(db.FoodCategories, "Id", "FoodCategoryName", food.FoodCategoryId);
+            ViewBag.RestaurantId = new SelectList(db.Restaurants, "Id", "RestaurantName", food.RestaurantId);
             return View(food);
         }
 
