@@ -49,19 +49,29 @@ p {
 .menu-item-description {
     text-overflow: clip;
 }
+
 .nav-item {
     font-size: 1.2em;
     margin: 15px;
 }
+
 #registerLink {
     font-size: 1.2em;
     margin: 5px;
 }
+
 #loginLink {
     margin: 5px;
     font-size: 1.2em;
 }
-.nav .navbar-nav .float-right > a{
+
+.nav .navbar-nav .float-right > a {
     margin: 5px;
     font-size: 1.2em;
+}
+hr {
+    width: 100%;
+}
+.clicked {
+    background: cornsilk;
 }

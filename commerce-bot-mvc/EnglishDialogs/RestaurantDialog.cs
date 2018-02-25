@@ -108,7 +108,7 @@ namespace commerce_bot_mvc.EnglishDialogs
 
                         CardAction plButton = new CardAction()
                         {
-                            Value = $"http://localhost:8039/Home/Index?userId={_userId}&restaurantId={restaurant.Id}",
+                            Value = $"http://localhost:8039/index.html?userId={_userId}&restaurantId={restaurant.Id}",
                             Type = "openUrl",
                             Title = $"{restaurant.RestaurantName}"
                         };

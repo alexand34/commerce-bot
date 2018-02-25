@@ -26,6 +26,8 @@ namespace commerce_bot_mvc.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
 

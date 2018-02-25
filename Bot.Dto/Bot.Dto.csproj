@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\Menu.cs" />
     <Compile Include="Entitites\Category.cs" />
     <Compile Include="Entitites\Food.cs" />
     <Compile Include="Entitites\FoodCategory.cs" />
