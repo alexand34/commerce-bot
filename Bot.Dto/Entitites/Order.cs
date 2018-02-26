@@ -1,4 +1,5 @@
 using System;
+using Bot.Dto.Enums;
 
 namespace Bot.Dto.Entitites
 {
@@ -11,7 +12,8 @@ namespace Bot.Dto.Entitites
         public double? DeliveryPrice { get; set; }
         public double? Price { get; set; }
         public int? RestaurantId { get; set; }
-    
+        public OrderState OrderState { get; set; }
+
         public virtual Restaurant Restaurant { get; set; }
         public virtual BotUser User { get; set; }
     }

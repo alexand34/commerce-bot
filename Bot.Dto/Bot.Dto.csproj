@@ -47,6 +47,7 @@
     <Compile Include="Entitites\Order.cs" />
     <Compile Include="Entitites\Restaurant.cs" />
     <Compile Include="Entitites\BotUser.cs" />
+    <Compile Include="Enums\OrderState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

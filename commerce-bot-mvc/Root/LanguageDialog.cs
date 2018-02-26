@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Bot.Dto.Entitites;
 using commerce_bot_mvc.Enums;
 using commerce_bot_mvc.Models;
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace commerce_bot_mvc.Root
 {
@@ -49,7 +51,7 @@ namespace commerce_bot_mvc.Root
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-
+            
             if (!string.IsNullOrEmpty(message.Text))
             {
                 this._language = message.Text.ToLower().Equals("français")
@@ -61,8 +63,15 @@ namespace commerce_bot_mvc.Root
                     {
                         UserName = context.Activity.From.Name,
                         MessengerId = context.Activity.From.Id,
-                        Language = (int)_language
-                    });
+                        Language = (int)_language,
+                        toId = message.From.Id,
+                        toName = message.From.Name,
+                        fromId = message.Recipient.Id,
+                        fromName = message.Recipient.Name,
+                        serviceUrl = message.ServiceUrl,
+                        channelId = message.ChannelId,
+                        conversationId = message.Conversation.Id,
+                });
                     ctx.SaveChanges();
                 }
 
