@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Bot.Dto.Enums;
 
 namespace Bot.Dto.Entitites
@@ -7,7 +8,7 @@ namespace Bot.Dto.Entitites
     {
         public int Id { get; set; }
         public int? UserID { get; set; }
-        public string OrderJson { get; set; }
+        public virtual ICollection<OrderItem> OrderData { get; set; }
         public string DestinationAddress { get; set; }
         public double? DeliveryPrice { get; set; }
         public double? Price { get; set; }

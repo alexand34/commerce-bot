@@ -3,7 +3,7 @@ namespace commerce_bot_mvc.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial_create : DbMigration
+    public partial class initialMigration : DbMigration
     {
         public override void Up()
         {
@@ -15,6 +15,13 @@ namespace commerce_bot_mvc.Migrations
                         MessengerId = c.String(),
                         UserName = c.String(),
                         Language = c.Int(),
+                        toId = c.String(),
+                        toName = c.String(),
+                        fromId = c.String(),
+                        fromName = c.String(),
+                        serviceUrl = c.String(),
+                        channelId = c.String(),
+                        conversationId = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -24,11 +31,11 @@ namespace commerce_bot_mvc.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         UserID = c.Int(),
-                        OrderJson = c.String(),
                         DestinationAddress = c.String(),
                         DeliveryPrice = c.Double(),
                         Price = c.Double(),
                         RestaurantId = c.Int(),
+                        OrderState = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Restaurants", t => t.RestaurantId)
@@ -37,30 +44,16 @@ namespace commerce_bot_mvc.Migrations
                 .Index(t => t.RestaurantId);
             
             CreateTable(
-                "dbo.Restaurants",
+                "dbo.OrderItems",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        RestaurantName = c.String(),
-                        RestaurantAddress = c.String(),
-                        CategoryId = c.Int(),
-                        AverageReceipt = c.Double(),
-                        Rating = c.Double(),
+                        FoodId = c.Int(nullable: false),
+                        Count = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Categories", t => t.CategoryId)
-                .Index(t => t.CategoryId);
-            
-            CreateTable(
-                "dbo.Categories",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        CategoryName = c.String(),
-                        ImgName = c.String(),
-                        FrenchCategoryName = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
+                .ForeignKey("dbo.Foods", t => t.FoodId, cascadeDelete: true)
+                .Index(t => t.FoodId);
             
             CreateTable(
                 "dbo.Foods",
@@ -76,7 +69,9 @@ namespace commerce_bot_mvc.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.FoodCategories", t => t.FoodCategoryId, cascadeDelete: true)
-                .Index(t => t.FoodCategoryId);
+                .ForeignKey("dbo.Restaurants", t => t.RestaurantId, cascadeDelete: true)
+                .Index(t => t.FoodCategoryId)
+                .Index(t => t.RestaurantId);
             
             CreateTable(
                 "dbo.FoodCategories",
@@ -85,6 +80,33 @@ namespace commerce_bot_mvc.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FoodCategoryName = c.String(),
                         FoodCategoryFrenchName = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Restaurants",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        RestaurantName = c.String(),
+                        RestaurantAddress = c.String(),
+                        CategoryId = c.Int(),
+                        AverageReceipt = c.Double(),
+                        Rating = c.Double(),
+                        AppUserId = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId)
+                .Index(t => t.CategoryId);
+            
+            CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        CategoryName = c.String(),
+                        ImgName = c.String(),
+                        FrenchCategoryName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -156,6 +178,19 @@ namespace commerce_bot_mvc.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
             
+            CreateTable(
+                "dbo.OrderOrderItems",
+                c => new
+                    {
+                        Order_Id = c.Int(nullable: false),
+                        OrderItem_Id = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.Order_Id, t.OrderItem_Id })
+                .ForeignKey("dbo.Orders", t => t.Order_Id, cascadeDelete: true)
+                .ForeignKey("dbo.OrderItems", t => t.OrderItem_Id, cascadeDelete: true)
+                .Index(t => t.Order_Id)
+                .Index(t => t.OrderItem_Id);
+            
         }
         
         public override void Down()
@@ -164,29 +199,39 @@ namespace commerce_bot_mvc.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Foods", "FoodCategoryId", "dbo.FoodCategories");
             DropForeignKey("dbo.Orders", "UserID", "dbo.BotUsers");
+            DropForeignKey("dbo.OrderOrderItems", "OrderItem_Id", "dbo.OrderItems");
+            DropForeignKey("dbo.OrderOrderItems", "Order_Id", "dbo.Orders");
+            DropForeignKey("dbo.OrderItems", "FoodId", "dbo.Foods");
+            DropForeignKey("dbo.Foods", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.Orders", "RestaurantId", "dbo.Restaurants");
             DropForeignKey("dbo.Restaurants", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.Foods", "FoodCategoryId", "dbo.FoodCategories");
+            DropIndex("dbo.OrderOrderItems", new[] { "OrderItem_Id" });
+            DropIndex("dbo.OrderOrderItems", new[] { "Order_Id" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Foods", new[] { "FoodCategoryId" });
             DropIndex("dbo.Restaurants", new[] { "CategoryId" });
+            DropIndex("dbo.Foods", new[] { "RestaurantId" });
+            DropIndex("dbo.Foods", new[] { "FoodCategoryId" });
+            DropIndex("dbo.OrderItems", new[] { "FoodId" });
             DropIndex("dbo.Orders", new[] { "RestaurantId" });
             DropIndex("dbo.Orders", new[] { "UserID" });
+            DropTable("dbo.OrderOrderItems");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.FoodCategories");
-            DropTable("dbo.Foods");
             DropTable("dbo.Categories");
             DropTable("dbo.Restaurants");
+            DropTable("dbo.FoodCategories");
+            DropTable("dbo.Foods");
+            DropTable("dbo.OrderItems");
             DropTable("dbo.Orders");
             DropTable("dbo.BotUsers");
         }

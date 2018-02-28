@@ -2,7 +2,10 @@
 {
     public enum OrderState
     {
-        Choosen,
-        Ordered
+        NotConfirmed,
+        Confirmed,
+        Ordered,
+        Payed,
+        Done
     }
 }

@@ -262,25 +262,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201802192011533_initial_create.cs" />
-    <Compile Include="Migrations\201802192011533_initial_create.Designer.cs">
-      <DependentUpon>201802192011533_initial_create.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802192204203_main-logic.cs" />
-    <Compile Include="Migrations\201802192204203_main-logic.Designer.cs">
-      <DependentUpon>201802192204203_main-logic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802230714321_food-edit.cs" />
-    <Compile Include="Migrations\201802230714321_food-edit.Designer.cs">
-      <DependentUpon>201802230714321_food-edit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802230734596_food-update2.cs" />
-    <Compile Include="Migrations\201802230734596_food-update2.Designer.cs">
-      <DependentUpon>201802230734596_food-update2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802262342534_botUserUpdate.cs" />
-    <Compile Include="Migrations\201802262342534_botUserUpdate.Designer.cs">
-      <DependentUpon>201802262342534_botUserUpdate.cs</DependentUpon>
+    <Compile Include="Migrations\201802280009258_initialMigration.cs" />
+    <Compile Include="Migrations\201802280009258_initialMigration.Designer.cs">
+      <DependentUpon>201802280009258_initialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -392,20 +376,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201802192011533_initial_create.resx">
-      <DependentUpon>201802192011533_initial_create.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802192204203_main-logic.resx">
-      <DependentUpon>201802192204203_main-logic.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802230714321_food-edit.resx">
-      <DependentUpon>201802230714321_food-edit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802230734596_food-update2.resx">
-      <DependentUpon>201802230734596_food-update2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802262342534_botUserUpdate.resx">
-      <DependentUpon>201802262342534_botUserUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802280009258_initialMigration.resx">
+      <DependentUpon>201802280009258_initialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

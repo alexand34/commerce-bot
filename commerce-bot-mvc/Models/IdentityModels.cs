@@ -37,6 +37,14 @@ namespace commerce_bot_mvc.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<BotUser> BotUsers { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Order>().HasMany(i => i.OrderData).WithMany();
+        }
 
         public static ApplicationDbContext Create()
         {

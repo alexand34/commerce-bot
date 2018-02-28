@@ -13,11 +13,13 @@
     }
 };
 
-var order = [];
+var order = {};
 var userId = getUrlParameter('userId');
 var restaurantId = getUrlParameter('restaurantId');
 var menu = {};
-
+order.userId = userId;
+order.restaurantId = restaurantId;
+order.order = [];
 jQuery.get("api/menu?userId=" + userId + "&restaurantId=" + restaurantId, function (data) {
     menu = data.data;
     for (var key in data.data) {
@@ -38,13 +40,13 @@ jQuery.get("api/menu?userId=" + userId + "&restaurantId=" + restaurantId, functi
                     var chosenItemInfo = element.currentTarget.id.split('-');
                     if (!$('#' + element.currentTarget.id).hasClass('clicked')) {
                         $('#' + element.currentTarget.id).addClass('clicked');
-                        order.push(menu[chosenItemInfo[0]][chosenItemInfo[1]]);
-                        console.log(order);
+                        order.order.push(menu[chosenItemInfo[0]][chosenItemInfo[1]]);
+                        console.log(order.order);
                     } else {
                         $('#' + element.currentTarget.id).removeClass('clicked');
-                        var index = order.indexOf(menu[chosenItemInfo[0]][chosenItemInfo[1]]);
-                        order.splice(index, 1);
-                        console.log(order);
+                        var index = order.order.indexOf(menu[chosenItemInfo[0]][chosenItemInfo[1]]);
+                        order.order.splice(index, 1);
+                        console.log(order.order);
                     }
                 });
 

@@ -19,33 +19,3 @@
     <script src="/Scripts/Menu.js"></script>
 </body>
 </html>
-
-<!--@{
-    ViewBag.Title = "Menu";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>@ViewBag.RestaurantId</h1>
-<div class="row">
-    @foreach (var category in ViewBag.Menu)
-    {
-        <script>console.log(@category);</script>
-        <div class="col-12 menu">
-            <h3>@category.Key</h3>
-            <div class="row col-12">
-                <hr />
-                @foreach (var item in category.Value)
-                {
-                    <div class="col-6 menu-item">
-                        <p class="card-title menu-item-header">@item.DishName – C$@item.Price</p>
-                        <p class="cart-text menu-item-description">@item.DishDescription</p>
-                    </div>
-                }
-            </div>
-        </div>
-    }
-</div>
-<script>
-    var menu = "@ViewBag.Menu";
-    console.log(menu);
-</script>-->

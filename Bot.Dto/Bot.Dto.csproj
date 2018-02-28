@@ -45,6 +45,7 @@
     <Compile Include="Entitites\Food.cs" />
     <Compile Include="Entitites\FoodCategory.cs" />
     <Compile Include="Entitites\Order.cs" />
+    <Compile Include="Entitites\OrderItem.cs" />
     <Compile Include="Entitites\Restaurant.cs" />
     <Compile Include="Entitites\BotUser.cs" />
     <Compile Include="Enums\OrderState.cs" />

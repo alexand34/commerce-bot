@@ -147,7 +147,7 @@ namespace commerce_bot_mvc.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, "Restaurant");
+                    await UserManager.AddToRoleAsync(user.Id, "Administrator");
                     _context.Users.AddOrUpdate(user);
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     _context.Restaurants.Add(new Restaurant()
@@ -161,7 +161,7 @@ namespace commerce_bot_mvc.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Create", "PizzeriaAccounts");
+                    return RedirectToAction("Index", "Restaurants");
                 }
                 AddErrors(result);
             }
