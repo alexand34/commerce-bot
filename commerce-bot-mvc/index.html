@@ -4,15 +4,50 @@
     <title>Menu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="stylesheet" href="Content/fa-svg-with-js.css"/>
 </head>
 <body>
-    <div class="container">
-        <h1 id="restaurantName">
-            Restaurant
-        </h1>
-        <div class="row" id="mainMenu">
+<div class="container">
+    <h1 id="restaurantName">
+        Restaurant
+    </h1>
+    <div class="row" id="mainMenu">
+        <div class="loader"></div> 
+    </div>
+    <div id="shop-btn" class="col-md-12 mr-auto">
+        <button data-toggle="modal" data-target="#shopModal" class="btn" style="border-radius: 45px; width: 60px; height: 60px; background: orange; position: fixed; bottom: 10px; right: 30px;">
+            <i class="fa fa-cart-plus" style="color: white; font-size: 1.3em;"></i>
+        </button>
+    </div>
+    
+
+    <!-- The Modal -->
+    <div class="modal fade" id="shopModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Your Order</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Back to Shopping</button>
+                </div>
+
+            </div>
         </div>
     </div>
+</div>
+    <script src="Scripts/fontawesome-all.min.js"></script>
     <script src="/Scripts/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

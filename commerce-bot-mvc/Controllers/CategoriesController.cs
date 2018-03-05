@@ -19,7 +19,7 @@ namespace commerce_bot_mvc.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            return View(db.Categories.Distinct().ToList());
         }
 
         // GET: Categories/Details/5

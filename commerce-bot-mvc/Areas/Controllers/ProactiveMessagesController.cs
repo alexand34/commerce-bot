@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Bot.Dto.Entitites;
 using commerce_bot_mvc.Models;
 using Microsoft.Bot.Connector;
 
@@ -39,20 +40,23 @@ namespace commerce_bot_mvc.Areas.Controllers
                 recepient.conversationId = (await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount))
                     .Id;
             }
-
             // Set the address-related properties in the message and send the message.
             message.From = botAccount;
             message.Recipient = userAccount;
             message.Conversation = new ConversationAccount(id: recepient.conversationId);
-            message.Text = "Here is your order:\n";
-            foreach (var item in finalizedOrder.OrderData)
+            message.Text = "Here is your order:\n\n";
+            var orderItems = ctx.OrderItems.Where(x => x.OrderId == order).ToList<OrderItem>();
+            double totalPrice = 0.0;
+            foreach (var item in orderItems)
             {
-                message.Text += $"• {item.Food.DishName} (x{item.Count}) – C${item.Food.Price * item.Count}\n";
+                Food food = ctx.Food.FirstOrDefault(x => x.Id == item.FoodId);
+                message.Text += $"• {food.DishName} (x{item.Count}) – C${food.Price * item.Count}\n\n";
+                totalPrice += food.Price * item.Count;
             }
 
-            message.Text += $"Price of order: C${finalizedOrder.Price}\n";
-            message.Text += $"Price of delivery: not implemented yet\n";
-            message.Text += $"Total:  C${finalizedOrder.Price} + price for delivery";
+            message.Text += $"Price of order: C${totalPrice}\n\n";
+            message.Text += $"Price of delivery: not implemented yet\n\n";
+            message.Text += $"Total:  C${totalPrice} + price for delivery";
             message.Locale = "en-us";
             await connector.Conversations.SendToConversationAsync((Activity) message);
 

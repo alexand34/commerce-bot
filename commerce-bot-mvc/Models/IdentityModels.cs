@@ -43,7 +43,7 @@ namespace commerce_bot_mvc.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Order>().HasMany(i => i.OrderData).WithMany();
+            modelBuilder.Entity<Order>().HasMany(i => i.OrderData);
         }
 
         public static ApplicationDbContext Create()

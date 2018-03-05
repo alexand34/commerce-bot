@@ -19,7 +19,7 @@ namespace commerce_bot_mvc.Controllers
         public ActionResult Index()
         {
             var food = db.Food.Include(f => f.FoodCategory).Include(f => f.Restaurant);
-            return View(food.ToList());
+            return View(food.Distinct().ToList());
         }
 
         // GET: Foods/Details/5

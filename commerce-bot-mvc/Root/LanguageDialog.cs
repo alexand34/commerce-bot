@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using Bot.Dto.Entitites;
@@ -27,10 +28,15 @@ namespace commerce_bot_mvc.Root
             var user = new BotUser();
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
-                user = ctx.BotUsers.FirstOrDefault<BotUser>(x => x.MessengerId == context.Activity.From.Id);
+                user = ctx.BotUsers.FirstOrDefault(x => x.MessengerId == context.Activity.From.Id);
                 if (user != null)
                 {
                     _language = user.Language == (int)Languages.English ? Languages.English : Languages.French;
+                    user.serviceUrl = context.Activity.ServiceUrl;
+                    user.channelId = context.Activity.ChannelId;
+                    user.conversationId = context.Activity.Conversation.Id;
+                    ctx.BotUsers.AddOrUpdate(user);
+                    ctx.SaveChanges();
                     context.Done(new Tuple<Languages, string>(_language, context.Activity.From.Id));
                 }
                 else

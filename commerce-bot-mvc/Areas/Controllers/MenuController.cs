@@ -14,7 +14,7 @@ namespace commerce_bot_mvc.Areas.Controllers
 {
     public class MenuController : ApiController
     {
-        
+
         JsonSerializer s = new JsonSerializer();
 
         [HttpGet]
@@ -24,7 +24,8 @@ namespace commerce_bot_mvc.Areas.Controllers
             Dictionary<string, List<Food>> menu = new Dictionary<string, List<Food>>();
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
-                foreach (var category in ctx.FoodCategories)
+                var categories = ctx.FoodCategories.Distinct().ToList();
+                foreach (var category in categories)
                 {
                     var foodList = ctx.Food.Where(x => x.RestaurantId == restaurantId && x.FoodCategoryId == category.Id).ToList();
                     if (foodList.Count != 0)
@@ -41,11 +42,9 @@ namespace commerce_bot_mvc.Areas.Controllers
         [Route("api/menu")]
         public IHttpActionResult ReceiveUserOrder(JObject order)
         {
-            List<OrderItem> userOrder = new List<OrderItem>();
-            double price = 0.0;
-
             JToken orderArray = order["order"];
             JArray nonavailability_array = (JArray)orderArray["order"];
+            List<OrderItem> items = new List<OrderItem>();
 
             string userId = orderArray["userId"].ToString();
             int restaurantId = Int32.Parse(orderArray["restaurantId"].ToString());
@@ -53,37 +52,24 @@ namespace commerce_bot_mvc.Areas.Controllers
             foreach (var item in nonavailability_array)
             {
                 JObject aItem = (JObject)item;
-                Food foodItem = s.Deserialize<Food>(new JsonTextReader(new StringReader(aItem.ToString())));
-                var orderItem = new OrderItem()
-                {
-                    Count = 1,
-                    FoodId = foodItem.Id
-                };
-                price += (orderItem.Food.Price * orderItem.Count);
-                userOrder.Add(orderItem);
+                OrderItem orderItem = s.Deserialize<OrderItem>(new JsonTextReader(new StringReader(aItem.ToString())));
+                items.Add(orderItem);
             }
 
-            int finalizedOrderId;
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 Order finalizedOrder = new Order
                 {
-                    OrderData = userOrder,
+                    OrderData = items,
                     OrderState = OrderState.NotConfirmed,
-                    User = ctx.BotUsers.FirstOrDefault(x => x.MessengerId == userId),
-                    Restaurant = ctx.Restaurants.FirstOrDefault(x => x.Id == restaurantId),
-                    Price = price
+                    RestaurantId = restaurantId,
+                    UserId = ctx.BotUsers.FirstOrDefault(x => x.MessengerId == userId)?.Id
                 };
-
                 ctx.Orders.Add(finalizedOrder);
                 ctx.SaveChanges();
-                finalizedOrderId = finalizedOrder.Id;
+                HttpClient client = new HttpClient();
+                client.GetAsync("http://localhost:8039/api/proactiveMessages?userId=" + userId + "&orderId=" + finalizedOrder.Id);
             }
-
-
-            HttpClient client = new HttpClient();
-            client.GetAsync("http://localhost:8039/api/proactiveMessages?userId=" + userId + "&orderId=" + finalizedOrderId);
-
             return Ok();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -38,6 +39,12 @@ namespace commerce_bot_mvc.EnglishDialogs
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 restaurantsByCategory.AddRange(ctx.Restaurants.Where(x => x.CategoryId == _categoryId).ToList());
+                var user = ctx.BotUsers.FirstOrDefault(x => x.MessengerId == context.Activity.From.Id);
+                user.serviceUrl = context.Activity.ServiceUrl;
+                user.channelId = context.Activity.ChannelId;
+                user.conversationId = context.Activity.Conversation.Id;
+                ctx.BotUsers.AddOrUpdate(user);
+                ctx.SaveChanges();
             }
 
             if (restaurantsByCategory.Count != 0)

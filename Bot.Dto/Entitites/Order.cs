@@ -7,7 +7,7 @@ namespace Bot.Dto.Entitites
     public partial class Order
     {
         public int Id { get; set; }
-        public int? UserID { get; set; }
+        public int? UserId { get; set; }
         public virtual ICollection<OrderItem> OrderData { get; set; }
         public string DestinationAddress { get; set; }
         public double? DeliveryPrice { get; set; }

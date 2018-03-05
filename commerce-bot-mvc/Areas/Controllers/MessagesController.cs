@@ -7,7 +7,7 @@ using commerce_bot_mvc.Root;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace Bot.Controllers
+namespace commerce_bot_mvc.Areas.Controllers
 {
     public class MessagesController : ApiController
     {
