@@ -25,19 +25,22 @@ namespace commerce_bot_mvc.FrenchDialogs
             {
                 Title = "By price",
                 Text = "By price",
-                Value = $"{(int)SortingType.ByPrice}"
+                Value = $"{SortingType.ByPrice}",
+                Type = "postBack",
             });
             actions.Add(new CardAction
             {
                 Title = "By rating",
                 Text = "By rating",
-                Value = $"{(int)SortingType.ByRating}"
+                Value = $"{SortingType.ByRating}",
+                Type = "postBack",
             });
             actions.Add(new CardAction
             {
                 Title = "By distance",
                 Text = "By distance",
-                Value = $"{(int)SortingType.ByDistance}"
+                Value = $"{SortingType.ByDistance}",
+                Type = "postBack",
             });
 
             replyToConversation.Attachments.Add(
@@ -48,7 +51,6 @@ namespace commerce_bot_mvc.FrenchDialogs
                 }.ToAttachment()
             );
             await context.PostAsync(replyToConversation);
-
             context.Wait(this.MessageReceivedAsync);
         }
 
@@ -58,7 +60,19 @@ namespace commerce_bot_mvc.FrenchDialogs
 
             if (!string.IsNullOrEmpty(message.Text))
             {
-                SortingType sortingType = (SortingType)Int32.Parse(message.Text);
+                SortingType sortingType = SortingType.ByPrice;
+                if (message.Text.Contains("Price"))
+                {
+                    sortingType = SortingType.ByPrice;
+                }
+                else if (message.Text.Contains("Rating"))
+                {
+                    sortingType = SortingType.ByRating;
+                }
+                else
+                {
+                    sortingType = SortingType.ByDistance;
+                }
                 context.Done(sortingType);
             }
             else

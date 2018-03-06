@@ -4,53 +4,56 @@
     <title>Menu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/Content/Site.css" />
-    <link rel="stylesheet" href="Content/fa-svg-with-js.css"/>
+    <link rel="stylesheet" href="Content/fa-svg-with-js.css" />
 </head>
 <body>
-<div class="container">
-    <h1 id="restaurantName">
-        Restaurant
-    </h1>
-    <div class="row" id="mainMenu">
-        <div class="loader"></div> 
-    </div>
-    <div id="shop-btn" class="col-md-12 mr-auto">
-        <button data-toggle="modal" data-target="#shopModal" class="btn" style="border-radius: 45px; width: 60px; height: 60px; background: orange; position: fixed; bottom: 10px; right: 30px;">
-            <i class="fa fa-cart-plus" style="color: white; font-size: 1.3em;"></i>
-        </button>
-    </div>
-    
+    <div class="container">
+        <h1 id="restaurantName">
+            Restaurant
+        </h1>
+        <div class="row" id="mainMenu">
+            <div class="loader"></div>
+        </div>
+        <div id="shop-btn" class="col-md-12 mr-auto">
+            <button data-toggle="modal" data-target="#shopModal" class="btn" style="border-radius: 45px; width: 60px; height: 60px; background: orange; position: fixed; bottom: 10px; right: 30px;">
+                <i class="fa fa-cart-plus" style="color: white; font-size: 1.3em;"></i>
+            </button>
+        </div>
 
-    <!-- The Modal -->
-    <div class="modal fade" id="shopModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Your Order</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <!-- The Modal -->
+        <div class="modal fade" id="shopModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Your Order</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Back to Shopping</button>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="example1-card" class="StripeElement StripeElement--empty"><div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important;"><iframe allowtransparency="true" scrolling="no" name="__privateStripeFrame3" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-d9b9df61bb12355a77ee27497d79c00b.html#style[base][iconColor]=%23c4f0ff&amp;style[base][color]=%23fff&amp;style[base][fontWeight]=500&amp;style[base][fontFamily]=Roboto%2C+Open+Sans%2C+Segoe+UI%2C+sans-serif&amp;style[base][fontSize]=15px&amp;style[base][fontSmoothing]=antialiased&amp;style[base][:-webkit-autofill][color]=%23fce883&amp;style[base][::placeholder][color]=%2387BBFD&amp;style[invalid][iconColor]=%23FFC7EE&amp;style[invalid][color]=%23FFC7EE&amp;iconStyle=solid&amp;locale=en&amp;componentName=card&amp;wait=true&amp;rtl=false&amp;features[noop]=false&amp;origin=https%3A%2F%2Fstripe.github.io&amp;referrer=https%3A%2F%2Fstripe.github.io%2Felements-examples%2F&amp;controllerId=__privateStripeController0" title="Secure payment input frame" style="border: medium none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 18px;" frameborder="0"></iframe><input class="__PrivateStripeElement-input" style="border: medium none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent none repeat scroll 0% 0% !important;" aria-hidden="true"></div></div>
+                    </div>
                 </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="confirmOrder">Confirm Order</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Back to Shopping</button>
-                </div>
-
             </div>
         </div>
     </div>
-</div>
     <script src="Scripts/fontawesome-all.min.js"></script>
     <script src="/Scripts/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="/Scripts/Menu.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>

@@ -1,46 +1,42 @@
 ﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
+//using System.Threading;
 //using System.Threading.Tasks;
-//using System.Web;
+//using Autofac;
+//using commerce_bot_mvc.EnglishDialogs;
+//using Microsoft.Bot.Builder.Dialogs;
+//using Microsoft.Bot.Builder.Dialogs.Internals;
 //using Microsoft.Bot.Connector;
 
 //namespace commerce_bot_mvc.Models
 //{
 //    public class ConversationStarter
 //    {
-//        //Note: Of course you don't want these here. Eventually you will need to save these in some table
-//        //Having them here as static variables means we can only remember one user :)
-//        public static string fromId;
-//        public static string fromName;
-//        public string toId;
-//        public string toName;
-//        public string serviceUrl;
-//        public string channelId;
-//        public string conversationId;
+//        //Note: Of course you don't want this here. Eventually you will need to save this in some table
+//        //Having this here as static variable means we can only remember one user :)
+//        public static string resumptionCookie;
 
-//        //This will send an adhoc message to the user
-//        public async Task Resume(string conversationId, string channelId)
+//        //This will interrupt the conversation and send the user to SurveyDialog, then wait until that's done 
+//        public static async Task Resume()
 //        {
-//            var userAccount = new ChannelAccount(toId, toName);
-//            var botAccount = new ChannelAccount(fromId, fromName);
-//            var connector = new ConnectorClient(new Uri(serviceUrl));
+//            var message = ResumptionCookie.GZipDeserialize(resumptionCookie).GetMessage();
+//            var client = new ConnectorClient(new Uri(message.ServiceUrl));
 
-//            IMessageActivity message = Activity.CreateMessageActivity();
-//            if (!string.IsNullOrEmpty(conversationId) && !string.IsNullOrEmpty(channelId))
+
+//            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
 //            {
-//                message.ChannelId = channelId;
+//                var botData = scope.Resolve<IBotData>();
+//                await botData.LoadAsync(CancellationToken.None);
+//                var stack = scope.Resolve<IDialogStack>();
+
+//                //interrupt the stack
+//                var dialog = new PaymentDialogs();
+//                stack.Call(dialog.Void<object, IMessageActivity>(), null);
+//                await stack.PollAsync(CancellationToken.None);
+
+//                //flush dialog stack
+//                await botData.FlushAsync(CancellationToken.None);
+
 //            }
-//            else
-//            {
-//                conversationId = (await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount)).Id;
-//            }
-//            message.From = botAccount;
-//            message.Recipient = userAccount;
-//            message.Conversation = new ConversationAccount(id: conversationId);
-//            message.Text = "Hello, this is a notification";
-//            message.Locale = "en-Us";
-//            await connector.Conversations.SendToConversationAsync((Activity)message);
 //        }
 //    }
 //}

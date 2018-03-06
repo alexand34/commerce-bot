@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,11 +22,13 @@ namespace commerce_bot_mvc.FrenchDialogs
         private readonly int _categoryId;
         private double _distance;
         private SortingType _sortingType;
-        public RestaurantDialog(string location, int categoryId, SortingType sortingType)
+        private string _userId;
+        public RestaurantDialog(string location, int categoryId, SortingType sortingType, string userId)
         {
             _location = location;
             _categoryId = categoryId;
             _sortingType = sortingType;
+            _userId = userId;
         }
 
         public async Task StartAsync(IDialogContext context)
@@ -35,6 +38,12 @@ namespace commerce_bot_mvc.FrenchDialogs
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 restaurantsByCategory.AddRange(ctx.Restaurants.Where(x => x.CategoryId == _categoryId).ToList());
+                var user = ctx.BotUsers.FirstOrDefault(x => x.MessengerId == context.Activity.From.Id);
+                user.serviceUrl = context.Activity.ServiceUrl;
+                user.channelId = context.Activity.ChannelId;
+                user.conversationId = context.Activity.Conversation.Id;
+                ctx.BotUsers.AddOrUpdate(user);
+                ctx.SaveChanges();
             }
 
             if (restaurantsByCategory.Count != 0)
@@ -69,50 +78,64 @@ namespace commerce_bot_mvc.FrenchDialogs
 
             }
 
-            switch (_sortingType)
+            if (restaurantsToShow.Count == 0)
             {
-                //case SortingType.ByPrice:
-                //    restaurantsToShow.OrderBy(x => x.)
+                var replyToConversation = context.MakeMessage();
+                replyToConversation.Text = "We did not find anything suitable for you. Please, try different location.";
+                await context.PostAsync(replyToConversation);
             }
-            var replyToConversation = context.MakeMessage();//.CreateReply("Should go to conversation, in carousel format");
-            replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            replyToConversation.Attachments = new List<Attachment>();
-            replyToConversation.Text = "Great, here are the top picks for you:";
-            using (ApplicationDbContext ctx = new ApplicationDbContext())
+            else
             {
-                foreach (var restaurant in restaurantsToShow)
+                var result = new List<Restaurant>();
+                switch (_sortingType)
                 {
-                    List<CardImage> cardImages = new List<CardImage>();
-                    cardImages.Add(new CardImage(url: "https://assets.change.org/photos/2/zf/ml/fFZFmLnDFZmgAUn-128x128-noPad.jpg?1453750742"));
-
-                    List<CardAction> cardButtons = new List<CardAction>();
-
-                    CardAction plButton = new CardAction()
-                    {
-                        Value = $"{restaurant.Id}",
-                        Type = "imBack",
-                        Title = $"{restaurant.RestaurantName}"
-                    };
-
-                    cardButtons.Add(plButton);
-
-                    HeroCard plCard = new HeroCard()
-                    {
-                        Title = $"{restaurant.RestaurantName}",
-                        Subtitle = $"{restaurant.RestaurantName}",
-                        Images = cardImages,
-                        Buttons = cardButtons
-                    };
-
-                    Attachment plAttachment = plCard.ToAttachment();
-                    replyToConversation.Attachments.Add(plAttachment);
+                    case SortingType.ByPrice:
+                        result = restaurantsToShow.OrderBy(x => x.AverageReceipt).ToList();
+                        break;
+                    case SortingType.ByRating:
+                        result = restaurantsToShow.OrderBy(x => x.Rating).ToList();
+                        break;
+                    case SortingType.ByDistance:
+                        result = restaurantsToShow.OrderBy(x => x.RestaurantAddress).ToList();
+                        break;
                 }
+                var replyToConversation = context.MakeMessage();//.CreateReply("Should go to conversation, in carousel format");
+                replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                replyToConversation.Attachments = new List<Attachment>();
+                replyToConversation.Text = "Great, here are the top picks for you:";
+                using (ApplicationDbContext ctx = new ApplicationDbContext())
+                {
+                    foreach (var restaurant in result)
+                    {
+                        List<CardImage> cardImages = new List<CardImage>();
+                        cardImages.Add(new CardImage(url: "https://assets.change.org/photos/2/zf/ml/fFZFmLnDFZmgAUn-128x128-noPad.jpg?1453750742"));
+
+                        List<CardAction> cardButtons = new List<CardAction>();
+
+                        CardAction plButton = new CardAction()
+                        {
+                            Value = $"http://demo-bot-alede.azurewebsites.net/index.html?userId={_userId}&restaurantId={restaurant.Id}",
+                            Type = "openUrl",
+                            Title = $"{restaurant.RestaurantName}"
+                        };
+
+                        cardButtons.Add(plButton);
+
+                        HeroCard plCard = new HeroCard()
+                        {
+                            Title = $"{restaurant.RestaurantName}",
+                            Subtitle = $"{restaurant.RestaurantName}",
+                            Images = cardImages,
+                            Buttons = cardButtons
+                        };
+
+                        Attachment plAttachment = plCard.ToAttachment();
+                        replyToConversation.Attachments.Add(plAttachment);
+                    }
+                }
+
+                await context.PostAsync(replyToConversation);
             }
-
-            await context.PostAsync(replyToConversation);
-
-            await context.PostAsync("Okay, the location is set. " +
-                                    $"It is time to choose restaurant!");
 
             context.Wait(this.MessageReceivedAsync);
         }

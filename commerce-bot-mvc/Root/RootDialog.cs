@@ -105,7 +105,7 @@ namespace commerce_bot_mvc.Root
             {
                 this._sortingType = await result;
                 if (_language == Languages.French)
-                    context.Call(new FrenchDialogs.RestaurantDialog(_location, _category, _sortingType), this.RestaurantDialogResumeAfter);
+                    context.Call(new FrenchDialogs.RestaurantDialog(_location, _category, _sortingType, _userId), this.RestaurantDialogResumeAfter);
                 else
                     context.Call(new EnglishDialogs.RestaurantDialog(_location, _category, _sortingType, _userId), this.RestaurantDialogResumeAfter);
             }
@@ -120,7 +120,7 @@ namespace commerce_bot_mvc.Root
             try
             {
                 this._restaurant = await result;
-
+                //await context.Call(new EnglishDialogs.PaymentDialogs(), IAwaitable<int> result);
             }
             catch (TooManyAttemptsException)
             {
@@ -132,5 +132,6 @@ namespace commerce_bot_mvc.Root
                                         $" User: {context.Activity.From.Name} \n Id: {context.Activity.From.Id} \n Properties: {context.Activity.From.Properties} + \n {_restaurant}");
             }
         }
+
     }
 }

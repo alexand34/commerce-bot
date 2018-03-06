@@ -22,29 +22,29 @@ namespace commerce_bot_mvc.FrenchDialogs
             var replyToConversation = context.MakeMessage();//.CreateReply("Should go to conversation, in carousel format");
             replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             replyToConversation.Attachments = new List<Attachment>();
-            replyToConversation.Text = "SVP, choissiez votre type d’aliments.";
+            replyToConversation.Text = "Please, choose your food category.";
             using (ApplicationDbContext ctx = new ApplicationDbContext())
             {
                 foreach (var category in ctx.Categories)
                 {
                     List<CardImage> cardImages = new List<CardImage>();
-                    cardImages.Add(new CardImage(url: "https://p.memecdn.com/avatars/s_28212_50048351785dc.jpg"));
+                    cardImages.Add(new CardImage(url: "https://image.flaticon.com/icons/png/128/164/164826.png"));
 
-                    List <CardAction> cardButtons = new List<CardAction>();
+                    List<CardAction> cardButtons = new List<CardAction>();
 
                     CardAction plButton = new CardAction()
                     {
-                        Value = $"{category.FrenchCategoryName}",
-                        Type = "imBack",
-                        Title = $"{category.FrenchCategoryName}"
+                        Value = $"{category.Id}",
+                        Type = "postBack",
+                        Title = $"{category.CategoryName}"
                     };
 
                     cardButtons.Add(plButton);
 
                     HeroCard plCard = new HeroCard()
                     {
-                        Title = $"{category.FrenchCategoryName}",
-                        Subtitle = $"{category.FrenchCategoryName}",
+                        Title = $"{category.CategoryName}",
+                        Subtitle = $"{category.CategoryName}",
                         Images = cardImages,
                         Buttons = cardButtons
                     };
@@ -66,7 +66,7 @@ namespace commerce_bot_mvc.FrenchDialogs
             {
                 /* Completes the dialog, removes it from the dialog stack, and returns the result to the parent/calling
                     dialog. */
-                context.Done(message.Text);
+                context.Done(Int32.Parse(message.Text));
             }
             /* Else, try again by re-prompting the user. */
             else

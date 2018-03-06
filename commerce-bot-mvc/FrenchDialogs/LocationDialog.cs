@@ -10,13 +10,14 @@ namespace commerce_bot_mvc.FrenchDialogs
     {
 
         public LocationDialog()
-        { 
+        {
         }
 
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync($"D’accord, la categorie est choisie. SVP, envoyez-nous " +
-                                    $"votre adresse au complet pour choisir pour vous les meilleurs restaurants.");
+            await context.PostAsync($"Okay, the category is set. " +
+                                    $"Please, provide us your accurate address for us to pick the" +
+                                    $" most suitable restaurants.");
 
             context.Wait(this.MessageReceivedAsync);
         }

@@ -79,8 +79,12 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Stripe.net, Version=13.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.13.3.1\lib\net45\Stripe.net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -241,12 +245,14 @@
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="EnglishDialogs\FoodCategoriesDialog.cs" />
     <Compile Include="EnglishDialogs\LocationDialog.cs" />
+    <Compile Include="EnglishDialogs\PaymentDialogs.cs" />
     <Compile Include="EnglishDialogs\RestaurantDialog.cs" />
     <Compile Include="EnglishDialogs\SortingDialog.cs" />
     <Compile Include="Enums\Languages.cs" />
     <Compile Include="Enums\SortingTypes.cs" />
     <Compile Include="FrenchDialogs\FoodCategoriesDialog.cs" />
     <Compile Include="FrenchDialogs\LocationDialog.cs" />
+    <Compile Include="FrenchDialogs\PaymentDialogs.cs" />
     <Compile Include="FrenchDialogs\RestaurantDialog.cs" />
     <Compile Include="FrenchDialogs\SortingDialog.cs" />
     <Compile Include="Global.asax.cs">
@@ -361,6 +367,7 @@
     <Content Include="Views\Foods\Details.cshtml" />
     <Content Include="Views\Foods\Edit.cshtml" />
     <Content Include="Views\Foods\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\demo-bot-alede - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>

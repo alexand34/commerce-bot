@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Autofac;
 using Bot.Dto.Entitites;
+using commerce_bot_mvc.EnglishDialogs;
 using commerce_bot_mvc.Models;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 
 namespace commerce_bot_mvc.Areas.Controllers
@@ -40,6 +45,7 @@ namespace commerce_bot_mvc.Areas.Controllers
                 recepient.conversationId = (await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount))
                     .Id;
             }
+
             // Set the address-related properties in the message and send the message.
             message.From = botAccount;
             message.Recipient = userAccount;
@@ -58,9 +64,44 @@ namespace commerce_bot_mvc.Areas.Controllers
             message.Text += $"Price of delivery: not implemented yet\n\n";
             message.Text += $"Total:  C${totalPrice} + price for delivery";
             message.Locale = "en-us";
-            await connector.Conversations.SendToConversationAsync((Activity) message);
+            message.AttachmentLayout = AttachmentLayoutTypes.List;
+            message.Attachments = new List<Attachment>();
+            message.Attachments.Add(GetConfirmButtonsCard());
+            await connector.Conversations.SendToConversationAsync((Activity)message);
 
             return Ok();
+        }
+
+        private Attachment GetConfirmButtonsCard()
+        {
+            var buttons = CreateButtons();
+            HeroCard langCard = new HeroCard()
+            {
+                Buttons = buttons,
+            };
+
+            return langCard.ToAttachment();
+        }
+
+        private List<CardAction> CreateButtons()
+        {
+            List<CardAction> cardButtons = new List<CardAction>();
+            CardAction ConfirmButton = new CardAction()
+            {
+                Type = "imBack",
+                Title = "Confirm",
+                Value = "Confirm"
+            };
+            CardAction CancelButton = new CardAction()
+            {
+                Type = "imBack",
+                Title = "Cancel",
+                Value = "Cancel"
+            };
+            cardButtons.Add(ConfirmButton);
+            cardButtons.Add(CancelButton);
+
+            return cardButtons;
         }
     }
 }

@@ -68,7 +68,7 @@ namespace commerce_bot_mvc.Areas.Controllers
                 ctx.Orders.Add(finalizedOrder);
                 ctx.SaveChanges();
                 HttpClient client = new HttpClient();
-                client.GetAsync("http://localhost:8039/api/proactiveMessages?userId=" + userId + "&orderId=" + finalizedOrder.Id);
+                client.GetAsync("http://demo-bot-alede.azurewebsites.net/api/proactiveMessages?userId=" + userId + "&orderId=" + finalizedOrder.Id);
             }
             return Ok();
         }
