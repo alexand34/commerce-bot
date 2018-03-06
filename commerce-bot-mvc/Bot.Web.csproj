@@ -235,13 +235,13 @@
     <Compile Include="Areas\Controllers\MenuController.cs" />
     <Compile Include="Areas\Controllers\MessagesController.cs" />
     <Compile Include="Areas\Controllers\ProactiveMessagesController.cs" />
+    <Compile Include="Attributes\ExceptionLogger.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\FoodCategoriesController.cs" />
     <Compile Include="Controllers\FoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
     <Compile Include="EnglishDialogs\FoodCategoriesDialog.cs" />
     <Compile Include="EnglishDialogs\LocationDialog.cs" />

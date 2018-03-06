@@ -7,10 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using Autofac;
 using Bot.Dto.Entitites;
-using commerce_bot_mvc.EnglishDialogs;
 using commerce_bot_mvc.Models;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 
 namespace commerce_bot_mvc.Areas.Controllers
